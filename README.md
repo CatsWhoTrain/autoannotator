@@ -3,9 +3,6 @@ An extendable tool for automatic annotation of image data by a combination of de
 
 ![alt text](readme_files/auto-annotate_logo.jpg)
 
-The main goal of this annotator is to prioritize the high quality of pedictions rather speed. `auto-annotator` is made to be more precise than most of the tools available for the public. It uses ensembles of deep neural models to ensure the high quality of its predictions.
-Neural networks trained on clean datasets produce better results than the ones utilized larger but noisy datasets.
-
 The primary objective of this annotator is to prioritize the accuracy and quality of predictions over speed. The `auto-annotator` has been specifically designed to surpass the precision offered by most publicly available tools. It leverages ensembles of deep neural models to ensure the utmost quality in its predictions. It is important to note that neural networks trained on clean datasets tend to yield superior results compared to those trained on larger but noisier datasets.
 
 
