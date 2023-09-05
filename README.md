@@ -14,13 +14,14 @@ When expert labelers had to choose from ~100 labels while annotating ImageNet, [
 
 Andrej's error rate was determined to be 5.1%, and he initially invested approximately one minute in labeling a single image. Conversely, utilizing [Florence](https://arxiv.org/abs/2111.11432v1) or never models for the same task can deliver a top-5 error rate of less than 1%.
 
+##### Industry case: human face classification.
+A certain undisclosed company, bound by a non-disclosure agreement (NDA), has utilized a technique wherein face images captured under challenging environmental conditions are pre-processed. This procedure involves the application of both a facial recognition network and DBSCAN algorithm to divide the images into distinct individuals. Subsequently, human annotators undertook a validation process to verify the accuracy of the pre-processed data. The work conducted by the annotators was inspected by their team leader. Ultimately, it was determined by an ML engineer that 1.4% of the clustered face images were mislabeled.
+
 ### Why yet another tool?
 
 
 
 ### It can automate labeling
-
-Usually, labeling is done via humans who, as neural networks, tend to make mistakes. The rate of mistakes increases with a volume of data to be annotated. 
 
 
 
