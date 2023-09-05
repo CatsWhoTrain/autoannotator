@@ -7,6 +7,13 @@ The primary objective of this annotator is to prioritize the accuracy and qualit
 
 
 ## FAQ
+### Do companies and engineers actually need this tool?
+We have asked engineers in the field of video analytics whether they are interested in such a library. Their responses were:
+- IREX: would use this library and contribute to it.
+- NapoleonIT: would use this library and contribute to it.
+- VisionLabs
+- NTechLab
+
 ### What are the reasons for choosing this data labeling tool over the alternative of employing human annotators?
 #### Human accuracy is not so good
 Long time ago Andrej Karpathy [observed](http://karpathy.github.io/2011/04/27/manually-classifying-cifar10/) that his accuracy was only 94% when he tried to label just 400 images of the CIFAR-10 dataset while SOTA [Efficient adaptive ensembling for image classification](https://onlinelibrary.wiley.com/doi/10.1111/exsy.13424) (August 29, 2023) achieves >99.6% accuracy.
