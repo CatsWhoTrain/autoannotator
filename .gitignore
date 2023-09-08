@@ -33,7 +33,7 @@ ipython_config.py
 
 ### Python template
 # Byte-compiled / optimized / DLL files
-pycache/
+__pycache__/
 *.py[cod]
 *$py.class
 
@@ -126,7 +126,7 @@ target/
 #Pipfile.lock
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
-pypackages/
+__pypackages__/
 
 # Celery stuff
 celerybeat-schedule
@@ -236,3 +236,4 @@ cython_debug/
 # pytype static type analyzer
 
 # Cython debug symbols
+
