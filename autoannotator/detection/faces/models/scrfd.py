@@ -65,7 +65,7 @@ _ROOT = get_project_root()
 
 class SCRFDDetectionConfig(DetectionConfig):
     """ SCRFD_10G_KPS object detector config """
-    weights: str = f'{_ROOT}/weights/detection/scrfd_10g_kps.onnx'
+    weights: str = f'{_ROOT}/weights/detection/faces/scrfd_10g_kps.onnx'
     conf_thresh: float = 0.4
     nms_thresh: float = 0.5
     input_size: Tuple[int, int] = (640, 640)

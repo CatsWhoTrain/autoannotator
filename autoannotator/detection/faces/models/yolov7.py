@@ -17,7 +17,7 @@ _ROOT = get_project_root()
 
 class YOLOv7DetectionConfig(DetectionConfig):
     """ YOLOv7w6-Face object detector config """
-    weights: str = f'{_ROOT}/weights/detection/yolov7-w6-face.onnx'
+    weights: str = f'{_ROOT}/weights/detection/faces/yolov7-w6-face.onnx'
     conf_thresh: float = 0.4
     nms_thresh: float = 0.5
     input_size: Tuple[int, int] = (640, 640)
