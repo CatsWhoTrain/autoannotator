@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 from typing import Tuple, List
 
+from autoannotator.types.base import ImageColorFormat
+
 
 __all__ = ['resize_image', 'np2onnx', 'normalize_image']
 
@@ -90,7 +92,7 @@ def resize_image(
     return out_img, shift, scale
 
 
-def np2onnx(img: np.ndarray, color_mode: str = 'rgb') -> np.ndarray:
+def np2onnx(img: np.ndarray, color_mode: ImageColorFormat = ImageColorFormat.RGB) -> np.ndarray:
     """
     Convert numpy image to onnx-friendly input format
 
@@ -100,7 +102,7 @@ def np2onnx(img: np.ndarray, color_mode: str = 'rgb') -> np.ndarray:
     Returns:
         (np.ndarray): ONNX-friendly input (BxCxHxW)
     """
-    if color_mode.lower() == 'bgr':
+    if color_mode == ImageColorFormat.BGR:
         img = img[:, :, ::-1]
     img = np.asarray(img, dtype=np.float32)
     img = np.expand_dims(img, 0)
@@ -114,8 +116,8 @@ def normalize_image(img: np.ndarray, mean: List[float], std: List[float]) -> np.
 
     Arguments:
         img (np.ndarray): The input image numpy array HxWx3 in rgb format
-        mean (List[float]): normalized pixels mean list for 3 rgb channels
-        std (List[float]): normalized pixels std pixels list for 3 rgb channels
+        mean (List[float]): normalized pixels mean list for 3 rgb channels in the range [0, 1]
+        std (List[float]): normalized pixels std pixels list for 3 rgb channels in the range [0, 1]
     Returns:
         (np.ndarray): Normalized image
     """

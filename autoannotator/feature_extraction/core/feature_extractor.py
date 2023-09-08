@@ -1,20 +1,8 @@
 
 from abc import ABC, abstractmethod
-from typing import List
-from enum import Enum
 import numpy as np
-from pydantic import BaseModel
-
+from autoannotator.config.feature_extraction import FeatureExtractorConfig
 from autoannotator.types.base import Device, ImageColorFormat
-
-
-class FeatureExtractorConfig(BaseModel):
-    onnx_path: str
-    name: str
-    normalize_mean: List[float] = [0.5, 0.5, 0.5]
-    normalize_std: List[float] = [0.5, 0.5, 0.5]
-    color_format: ImageColorFormat
-    device: str  # cpu, cuda, or rt
 
 
 class BaseFeatureExtrator(ABC):
@@ -31,7 +19,7 @@ class BaseFeatureExtrator(ABC):
             case "rt":
                 self.device = Device.RT
             case _:
-                raise ValueError(f"Unknown devide type {self.config.device}")
+                raise ValueError(f"Unknown device type {self.config.device}")
     
     def __call__(self, image: np.ndarray):
         img = self._preprocess(image)

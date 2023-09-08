@@ -4,6 +4,7 @@ import numpy as np
 from typing import List, Tuple, Union
 
 from autoannotator.detection.core.base_detector import BaseDetector
+from autoannotator.types.base import ImageColorFormat
 from autoannotator.types.faces import Face
 from autoannotator.utils.image_preprocessing import resize_image, np2onnx, normalize_image
 from autoannotator.config.detection import DetectionConfig
@@ -18,6 +19,7 @@ _ROOT = get_project_root()
 class YOLOv7DetectionConfig(DetectionConfig):
     """ YOLOv7w6-Face object detector config """
     weights: str = f'{_ROOT}/weights/detection/faces/yolov7-w6-face.onnx'
+    url: str = "https://github.com/CatsWhoTrain/autoannotator/releases/download/0.0.1/yolov7-w6-face.onnx"
     conf_thresh: float = 0.4
     nms_thresh: float = 0.5
     input_size: Tuple[int, int] = (640, 640)
@@ -51,7 +53,7 @@ class YOLOv7(BaseDetector):
 
         img = normalize_image(img, mean=self.config.mean, std=self.config.std)
 
-        img = np2onnx(img, color_mode='RGB')
+        img = np2onnx(img, color_mode=ImageColorFormat.RGB)
 
         return img, shift, scale
 

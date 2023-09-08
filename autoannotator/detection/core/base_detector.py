@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import List, Tuple
 from autoannotator.types.base import Detection
 from autoannotator.config.detection import DetectionConfig
+from autoannotator.utils.misc import attempt_download_onnx
 
 
 class BaseDetector(ABC):
@@ -56,7 +57,8 @@ class BaseDetector(ABC):
 
             assert self.config.weights is not None
             if not Path(self.config.weights).is_file():
-                raise FileNotFoundError(f'No onnx weights found at {self.config.weights}')
+                attempt_download_onnx(self.config.weights, self.config.url)
+                # raise FileNotFoundError(f'No onnx weights found at {self.config.weights}')
 
             options = onnxruntime.SessionOptions()
             self.session = onnxruntime.InferenceSession(self.config.weights, options, providers=providers)
