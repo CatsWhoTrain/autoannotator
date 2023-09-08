@@ -20,7 +20,7 @@ class ImageAlignmentBase(ABC):
 
 
 class ImageAlignmentRegression(ImageAlignmentBase):
-    def __init__(self, config: ConfigImageAlignmentBase):
+    def __init__(self, config: ConfigImageAlignmentBase=ConfigImageAlignmentBase()):
         super().__init__(config)
         self.ref_pts = np.array(self.config.ref_points, dtype=np.float32)
 
