@@ -6,3 +6,4 @@ scikit-image
 scikit-learn
 opencv-python
 pytest
+requests

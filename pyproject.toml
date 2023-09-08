@@ -1,10 +1,13 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-requirements-txt"]
 build-backend = "hatchling.build"
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements.txt"]
 
 [project]
 name = "autoannotator"
-version = "0.0.2"
+version = "0.0.6"
 authors = [
   { name="Alexander FIlonenko", email="alexander@filonenko.net" },
   { name="Igor Popov", email="ig.popov1997@gmail.com" },
@@ -17,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
+dynamic = ["dependencies"]
 
 [project.urls]
 "Homepage" = "https://github.com/CatsWhoTrain/autoannotator"

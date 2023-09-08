@@ -10,7 +10,7 @@ def get_project_root() -> Path:
 
 def attempt_download_onnx(path: str, url: str):
     if not Path(path).is_file():
-        logger.warning(f"Downloading weights from {url}")
+        logger.warning(f"Downloading weights from {url} to {path}")
         with requests.get(url, stream=True) as r:
             with open(path, 'wb') as f:
                 shutil.copyfileobj(r.raw, f)

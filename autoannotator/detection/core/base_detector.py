@@ -49,10 +49,8 @@ class BaseDetector(ABC):
         if self.session is None:
             import onnxruntime
             if self.config.device == 'cpu':
-                assert onnxruntime.get_device() == 'CPU'
                 providers = ['CPUExecutionProvider']
             else:
-                assert onnxruntime.get_device() == 'GPU'
                 providers = ['CUDAExecutionProvider']
 
             assert self.config.weights is not None
