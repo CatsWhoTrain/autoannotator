@@ -3,7 +3,7 @@ An extendable tool for automatic annotation of image data by a combination of de
 
 ![alt text](readme_files/auto-annotate_logo.jpg)
 
-The primary objective of this annotator is to prioritize the accuracy and quality of predictions over speed. The `auto-annotator` has been specifically designed to surpass the precision offered by most publicly available tools. It leverages ensembles of deep neural models to ensure the utmost quality in its predictions. It is important to note that neural networks trained on clean datasets tend to yield superior results compared to those trained on larger but noisier datasets.
+The primary objective of this annotator is to prioritize the accuracy and quality of predictions over speed. The `autoannotator` has been specifically designed to surpass the precision offered by most publicly available tools. It leverages ensembles of deep neural models to ensure the utmost quality in its predictions. It is important to note that neural networks trained on clean datasets tend to yield superior results compared to those trained on larger but noisier datasets.
 
 
 ## FAQ
@@ -11,8 +11,7 @@ The primary objective of this annotator is to prioritize the accuracy and qualit
 We have asked engineers in the field of video analytics whether they are interested in such a library. Their responses were:
 - IREX: would use this library and contribute to it.
 - NapoleonIT: would use this library and contribute to it.
-- VisionLabs
-- NTechLab
+- ITMO.Lens: would use this library.
 
 ### What are the reasons for choosing this data labeling tool over the alternative of employing human annotators?
 #### Human accuracy is not so good
@@ -35,8 +34,9 @@ A certain undisclosed company, bound by a non-disclosure agreement (NDA), has ut
 
 ## Supported tasks
 - [ ] Face and landmarks detection 
-- [ ] Face descriptor extraction
-- [ ] Faces clusterization
+- [X] Face alignment via keypoints
+- [X] Face descriptor extraction
+- [X] Clusterization
 
 ## 📊 Benchmarks
 ### Speed
@@ -51,7 +51,7 @@ TODO
 ## 🏗 Installation
 ### PIP package
 ```bash
-pip install auto-annotator
+pip install autoannotator
 ```
 🟡 Note: PIP package construction currently in progress
 ### Docker TODO
