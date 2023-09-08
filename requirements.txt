@@ -2,6 +2,5 @@ loguru
 onnx
 onnxruntime-gpu
 pydantic
-PyTurboJPEG
 scikit-image
 opencv-python
