@@ -238,3 +238,4 @@ cython_debug/
 
 # Cython debug symbols
 
+*.onnx
