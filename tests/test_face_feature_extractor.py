@@ -3,12 +3,12 @@ import sys
 import numpy as np
 import pytest
 
-# sys.path.append(Path(__file__).absolute().parent.parent.as_posix())
 from autoannotator.feature_extraction.faces.models.model_adaface import ConfigAdaface, FaceFeatureExtractorAdaface
 from autoannotator.utils.image_alignment import ImageAlignmentRegression
 from autoannotator.feature_extraction.faces.models.ensemble import FaceFeatureExtractionEnsemle
 from autoannotator.feature_extraction.faces.models.model_insightface import FaceFeatureExtractorInsightface
 from autoannotator.utils.image_reader import ImageReader
+
 
 def test_model_adaface():
     model_adaface = FaceFeatureExtractorAdaface()
@@ -68,3 +68,5 @@ def test_feature_extractor_ensemble():
     embedding = ensemble(aligned_img)
     ground_truth = np.load("assets/binaries/ms_01_embedding_ensemble.npy")
     np.testing.assert_allclose(embedding, ground_truth, rtol=1e-03, atol=1e-05)
+
+test_model_insightace()

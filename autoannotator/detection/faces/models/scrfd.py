@@ -3,6 +3,7 @@ import numpy as np
 from typing import List, Tuple, Union
 
 from autoannotator.detection.core.base_detector import BaseDetector
+from autoannotator.types.base import ImageColorFormat
 from autoannotator.types.faces import Face
 from autoannotator.utils.image_preprocessing import resize_image, np2onnx, normalize_image
 from autoannotator.config.detection import DetectionConfig
@@ -66,6 +67,7 @@ _ROOT = get_project_root()
 class SCRFDDetectionConfig(DetectionConfig):
     """ SCRFD_10G_KPS object detector config """
     weights: str = f'{_ROOT}/weights/detection/faces/scrfd_10g_kps.onnx'
+    url: str = "https://github.com/CatsWhoTrain/autoannotator/releases/download/0.0.1/scrfd_10g_kps.onnx"
     conf_thresh: float = 0.4
     nms_thresh: float = 0.5
     input_size: Tuple[int, int] = (640, 640)
@@ -181,7 +183,7 @@ class SCRFD(BaseDetector):
 
         img = normalize_image(img, mean=self.config.mean, std=self.config.std)
 
-        img = np2onnx(img)
+        img = np2onnx(img, color_mode=ImageColorFormat.RGB)
         return img, shift, scale
 
     def _postprocess(self, raw_out, shift=(0, 0), det_scale=1.0) -> List[Face]:

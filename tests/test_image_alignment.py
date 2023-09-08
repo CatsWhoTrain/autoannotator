@@ -5,7 +5,6 @@ from pathlib import Path
 import sys
 import numpy as np
 
-# sys.path.append(Path(__file__).absolute().parent.parent.as_posix())
 from autoannotator.config.image_alignment import ConfigImageAlignmentBase
 from autoannotator.utils.image_alignment import ImageAlignmentRegression
 from autoannotator.utils.image_reader import ImageReader

@@ -2,7 +2,6 @@
 from abc import ABC, ABCMeta, abstractmethod
 from typing import List
 import cv2
-from pydantic import BaseModel
 
 import numpy as np
 import skimage
