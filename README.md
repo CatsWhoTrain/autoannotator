@@ -23,6 +23,17 @@ The primary objective of this annotator is to prioritize the accuracy and qualit
 pip install autoannotator
 ```
 
+## 🚲 Getting started
+### Face recognition example
+Check out our demo face recognition pipeline at: `examples/face_recognition_example.py` 
+
+### [Optional] Run frontend and backend
+```bash
+git clone https://github.com/CatsWhoTrain/autoannotator_client
+cd autoannotator_client
+docker compose up
+```
+The webinterface could be found locally at: `http://localhost:8080/`
 
 ## FAQ
 ### Do companies and engineers actually need this tool?
