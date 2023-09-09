@@ -4,4 +4,4 @@ from .base import Detection
 
 
 class Face(Detection):
-    landmarks: List[Tuple[int, int, int]]    # 5 x [x, y, conf]
+    landmarks: List[Tuple[float, float, float]]    # 5 x [x, y, conf]

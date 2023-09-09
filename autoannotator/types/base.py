@@ -6,7 +6,7 @@ from enum import Enum
 class Detection(BaseModel):
     cls_id: int
     score: float
-    bbox: List[int]  # xyxy
+    bbox: List[float]  # xyxy
 
       
 class ImageColorFormat(Enum):

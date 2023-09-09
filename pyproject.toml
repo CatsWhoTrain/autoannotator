@@ -7,7 +7,7 @@ files = ["requirements.txt"]
 
 [project]
 name = "autoannotator"
-version = "0.0.6"
+version = "0.0.7"
 authors = [
   { name="Alexander FIlonenko", email="alexander@filonenko.net" },
   { name="Igor Popov", email="ig.popov1997@gmail.com" },
