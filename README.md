@@ -5,6 +5,24 @@ An extendable tool for automatic annotation of image data by a combination of de
 
 The primary objective of this annotator is to prioritize the accuracy and quality of predictions over speed. The `autoannotator` has been specifically designed to surpass the precision offered by most publicly available tools. It leverages ensembles of deep neural models to ensure the utmost quality in its predictions. It is important to note that neural networks trained on clean datasets tend to yield superior results compared to those trained on larger but noisier datasets.
 
+## Supported tasks
+- [X] Face and landmarks detection 
+- [X] Face alignment via keypoints
+- [X] Face descriptor extraction
+- [X] Clusterization
+
+## 📊 Benchmarks
+### Speed
+| Task      | Hardware | Time, s |
+| ---        | ---      | ---     |
+| Face detection + landmarks + extraction |5900x+3090| ~1 |
+
+## 🏗 Installation
+### PIP package
+```bash
+pip install autoannotator
+```
+
 
 ## FAQ
 ### Do companies and engineers actually need this tool?
@@ -23,42 +41,7 @@ Andrej's error rate was determined to be 5.1%, and he initially invested approxi
 ##### Industry case: human face classification.
 A certain undisclosed company, bound by a non-disclosure agreement (NDA), has utilized a technique wherein face images captured under challenging environmental conditions are pre-processed. This procedure involves the application of both a facial recognition network and DBSCAN algorithm to divide the images into distinct individuals. Subsequently, human annotators undertook a validation process to verify the accuracy of the pre-processed data. The work conducted by the annotators was inspected by their team leader. Ultimately, it was determined by an ML engineer that 1.4% of the clustered face images were mislabeled.
 
-### Why yet another tool?
 
-
-
-### It can automate labeling
-
-
-
-
-## Supported tasks
-- [ ] Face and landmarks detection 
-- [X] Face alignment via keypoints
-- [X] Face descriptor extraction
-- [X] Clusterization
-
-## 📊 Benchmarks
-### Speed
-| Task     | Models | Hardware | Time, s |
-| ---      | ---    | ---      | ---     |
-| Face detection + landmarks | -         |5900x+3090|-|
-| Face descriptor extraction | -         |5900x+3090|-|
-
-### Accuracy
-TODO
-
-## 🏗 Installation
-### PIP package
-```bash
-pip install autoannotator
-```
-🟡 Note: PIP package construction currently in progress
-### Docker TODO
-```
-docker build ...
-docker run ...
-```
 
 ## 🏰 Legacy
 Current repository takes ideas and some code form the following projects:
