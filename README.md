@@ -15,7 +15,7 @@ The primary objective of this annotator is to prioritize the accuracy and qualit
 ### Speed
 | Task      | Hardware | Time, s |
 | ---        | ---      | ---     |
-| Face detection + landmarks + extraction |5900x+3090| ~1 |
+| Face detection + landmarks + extraction |Xeon e5 2678 v3| ~1 |
 
 ## 🏗 Installation
 ### PIP package

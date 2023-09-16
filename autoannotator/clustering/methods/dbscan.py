@@ -6,6 +6,9 @@ from autoannotator.clustering.core.base_clustering import BaseClustering
 
 
 class ClusteringDBSCAN(BaseClustering):
+    """ Basic clustering approach using DBSCAN.
+    Currently, only scikit-learn implementation is used
+    """
     def __init__(self, type = "sklearn", eps=0.3, min_samples=2) -> None:
         super().__init__()
         self.type = type

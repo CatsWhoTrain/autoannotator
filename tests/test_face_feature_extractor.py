@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from autoannotator.feature_extraction.faces.models.model_adaface import ConfigAdaface, FaceFeatureExtractorAdaface
-from autoannotator.utils.image_alignment import ImageAlignmentRegression
+from autoannotator.utils.image_alignment import ImageAlignmentSimilarityTransform
 from autoannotator.feature_extraction.faces.models.ensemble import FaceFeatureExtractionEnsemle
 from autoannotator.feature_extraction.faces.models.model_insightface import FaceFeatureExtractorInsightface
 from autoannotator.utils.image_reader import ImageReader
@@ -21,7 +21,7 @@ def test_model_adaface():
                 [409, 716, 1],
                 [527, 657, 1]]
     
-    regressor = ImageAlignmentRegression()
+    regressor = ImageAlignmentSimilarityTransform()
     aligned_img = regressor(input_img, keypoints)
     
     embedding = model_adaface(aligned_img)
@@ -40,7 +40,7 @@ def test_model_insightace():
                 [409, 716, 1],
                 [527, 657, 1]]
     
-    regressor = ImageAlignmentRegression()
+    regressor = ImageAlignmentSimilarityTransform()
     aligned_img = regressor(input_img, keypoints)
     
     embedding = model_insightface(aligned_img)
@@ -62,7 +62,7 @@ def test_feature_extractor_ensemble():
                 [409, 716, 1],
                 [527, 657, 1]]
     
-    regressor = ImageAlignmentRegression()
+    regressor = ImageAlignmentSimilarityTransform()
     aligned_img = regressor(input_img, keypoints)
     
     embedding = ensemble(aligned_img)

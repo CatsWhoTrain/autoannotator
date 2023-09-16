@@ -1,12 +1,12 @@
 
 from abc import ABC, abstractmethod
 import numpy as np
-from autoannotator.config.feature_extraction import FeatureExtractorConfig
+from autoannotator.config.feature_extraction import FaceFeatureExtractorConfig
 from autoannotator.types.base import Device, ImageColorFormat
 
 
 class BaseFeatureExtrator(ABC):
-    def __init__(self, config: FeatureExtractorConfig) -> None:
+    def __init__(self, config: FaceFeatureExtractorConfig) -> None:
         self.config = config
         self.__set_device()
 

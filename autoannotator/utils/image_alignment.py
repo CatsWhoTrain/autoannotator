@@ -6,11 +6,11 @@ import cv2
 import numpy as np
 import skimage
 
-from autoannotator.config.image_alignment import ConfigImageAlignmentBase
+from autoannotator.config.image_alignment import ConfigImageAlignmentSimilarityTransformBase
 
 
 class ImageAlignmentBase(ABC):
-    def __init__(self, config: ConfigImageAlignmentBase):
+    def __init__(self, config: ConfigImageAlignmentSimilarityTransformBase):
         self.config = config
     
     @abstractmethod
@@ -18,8 +18,8 @@ class ImageAlignmentBase(ABC):
         pass
 
 
-class ImageAlignmentRegression(ImageAlignmentBase):
-    def __init__(self, config: ConfigImageAlignmentBase=ConfigImageAlignmentBase()):
+class ImageAlignmentSimilarityTransform(ImageAlignmentBase):
+    def __init__(self, config: ConfigImageAlignmentSimilarityTransformBase=ConfigImageAlignmentSimilarityTransformBase()):
         super().__init__(config)
         self.ref_pts = np.array(self.config.ref_points, dtype=np.float32)
 
