@@ -1,13 +1,9 @@
 import pytest
 import numpy as np
 
-import sys
-sys.path.append("E:/ИТМО/Code/autoannotator/")
-
 from autoannotator.detection.faces.models.ensemble import FaceDetEnsemble
 from autoannotator.detection.faces.models.scrfd import SCRFD
 from autoannotator.detection.faces.models.yolov7 import YOLOv7
-
 from autoannotator.utils.image_reader import ImageReader
 
 def test_face_detection_ensemble():
