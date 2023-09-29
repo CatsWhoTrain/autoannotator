@@ -23,4 +23,3 @@ def test_face_detection_ensemble():
     np.allclose(expected_bbox, faces[0].bbox)
     np.allclose(expected_landmarks, np.array(faces[0].landmarks).reshape(15))
 
-test_face_detection_ensemble()
