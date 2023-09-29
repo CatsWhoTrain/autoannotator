@@ -2,7 +2,13 @@ from typing import List
 from pydantic import BaseModel
 
 
-class ConfigImageAlignmentBase(BaseModel):
+class ConfigImageAlignmentSimilarityTransformBase(BaseModel):
+    """ Parameters to perform image alignment uusing keypoints
+    
+    Fields:
+    output_size: output image resoution
+    ref_points: target keypoints
+    """
     output_size: List[int] = [112, 112]
     ref_points: List[List[float]] = [
         [30.2946+8.0, 51.6963],

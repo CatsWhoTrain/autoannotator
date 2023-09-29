@@ -14,9 +14,17 @@ class FaceDetEnsemble:
        models (List[BaseDetector]): list of face detectors
     """
 
-    def __init__(self, models: List[BaseDetector]):
+    def __init__(self, models: List[BaseDetector], min_score: float = 0.4):
+        """
+        Constructor
+        
+        Arguments:
+            models (List[BaseDetector]): All the models that should be used in the inference.
+            min_score (float): Detections with at least min_score confidence will be added in the results 
+        """
         super(FaceDetEnsemble, self).__init__()
         self.models = models
+        self.min_score = min_score
 
     def __call__(self, img: np.ndarray) -> List[Face]:
         """
@@ -24,20 +32,22 @@ class FaceDetEnsemble:
 
         Arguments:
             img (np.ndarray): The input image.
+            
         Returns:
             (List[Face]): List of detected faces
         """
+   
         results = {}
         for model in self.models:
             res = model(img)
             results[model.name] = res
-
-        results = self.reduce(results)
+        
+        results = self.reduce(results, self.min_score)
 
         return results
 
     @staticmethod
-    def reduce(results: Dict[str, List[Face]]) -> List[Face]:
+    def reduce(results: Dict[str, List[Face]], min_score: float) -> List[Face]:
         """
         Reduces ensemble models predictions into single prediction with Weighted Boxes Fusion Algorithm
 
@@ -71,7 +81,7 @@ class FaceDetEnsemble:
 
         out = []
         for box, score, kp, lbl in zip(boxes, scores, kps, labels):
-            if score > 0.4:     # todo: fix
+            if score >= min_score:
                 out.append(Face(
                     cls_id=lbl,
                     score=score,

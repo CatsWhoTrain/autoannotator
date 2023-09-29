@@ -3,7 +3,8 @@ from pydantic import BaseModel
 
 
 class DetectionConfig(BaseModel):
-    """ Base object detector inference config """
+    """ Base object detector inference config
+    """
     weights: str
     conf_thresh: float = 0.5
     nms_thresh: float = 0.5

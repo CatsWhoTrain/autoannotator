@@ -15,7 +15,7 @@ The primary objective of this annotator is to prioritize the accuracy and qualit
 ### Speed
 | Task      | Hardware | Time, s |
 | ---        | ---      | ---     |
-| Face detection + landmarks + extraction |5900x+3090| ~1 |
+| Face detection + landmarks + extraction |Xeon e5 2678 v3| ~1 |
 
 ## 🏗 Installation
 ### PIP package
@@ -57,3 +57,6 @@ A certain undisclosed company, bound by a non-disclosure agreement (NDA), has ut
 ## 🏰 Legacy
 Current repository takes ideas and some code form the following projects:
 - [faces_detanator](https://github.com/IgorHoholko/faces_detanator)
+
+## ✒ Legal
+All individuals depicted in the "assets" images have provided explicit consent to utilize their photos for the purpose of showcasing the current library's work. Kindly refrain from utilizing these images within your individual projects.

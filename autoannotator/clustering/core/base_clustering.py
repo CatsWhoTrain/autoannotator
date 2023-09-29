@@ -5,6 +5,8 @@ import numpy as np
 
 
 class BaseClustering(ABC):
+    """ Base class for clustering approaches
+    """
     def __init__(self) -> None:
         pass
     

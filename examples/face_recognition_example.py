@@ -2,7 +2,7 @@ from typing import List
 from autoannotator.types.faces import Face
 from autoannotator.utils.image_reader import ImageReader
 from autoannotator.detection.faces import SCRFD, YOLOv7, FaceDetEnsemble
-from autoannotator.utils.image_alignment import ImageAlignmentRegression
+from autoannotator.utils.image_alignment import ImageAlignmentSimilarityTransform
 from autoannotator.feature_extraction.faces import FaceFeatureExtractorAdaface, FaceFeatureExtractorInsightface
 from autoannotator.feature_extraction.faces import FaceFeatureExtractionEnsemle
 from autoannotator.clustering import ClusteringDBSCAN
@@ -26,7 +26,7 @@ def auto_annotate_faces(img_files: List[str]) -> List[Face]:
     fd_ensemble = FaceDetEnsemble(models=models)
 
     # init alignment regressor
-    regressor = ImageAlignmentRegression()
+    regressor = ImageAlignmentSimilarityTransform()
 
     # init feature extractor ensemble
     models = [FaceFeatureExtractorAdaface(), FaceFeatureExtractorInsightface()]
