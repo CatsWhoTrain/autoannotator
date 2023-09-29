@@ -57,3 +57,6 @@ A certain undisclosed company, bound by a non-disclosure agreement (NDA), has ut
 ## 🏰 Legacy
 Current repository takes ideas and some code form the following projects:
 - [faces_detanator](https://github.com/IgorHoholko/faces_detanator)
+
+## ✒ Legal
+All individuals depicted in the "assets" images have provided explicit consent to utilize their photos for the purpose of showcasing the current library's work. Kindly refrain from utilizing these images within your individual projects.
