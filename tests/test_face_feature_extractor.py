@@ -69,4 +69,4 @@ def test_feature_extractor_ensemble():
     ground_truth = np.load("assets/binaries/ms_01_embedding_ensemble.npy")
     np.testing.assert_allclose(embedding, ground_truth, rtol=1e-03, atol=1e-05)
 
-test_model_insightace()
+# test_model_insightace()
