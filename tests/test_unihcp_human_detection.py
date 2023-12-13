@@ -1,6 +1,7 @@
 import pytest
 import numpy as np
 
+
 from autoannotator.detection.human.models.uhihcp import (
     UniHCPHuman,
     UniHCPHumanDetectionConfig,
@@ -16,7 +17,7 @@ def test_face_detection_ensemble():
     img = reader(img_file)
     detections = model(img)
 
-    expected_bbox = np.array([445, 242, 619, 668])
+    expected_bbox = np.array([445, 241, 616, 669])
     np.testing.assert_allclose(
         expected_bbox, np.array(detections[0].bbox).astype(np.int32)
     )

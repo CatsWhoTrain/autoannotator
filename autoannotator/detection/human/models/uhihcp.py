@@ -25,7 +25,7 @@ class UniHCPHumanDetectionConfig(DetectionConfig):
     url: str = None
     conf_thresh: float = 0.4
     nms_thresh: float = None
-    input_size: Tuple2i = (800, 1198)
+    input_size: Tuple2i = (800, 1200)
     mean: Tuple3f | Tuple3i = None
     std: Tuple3f | Tuple3i = None
 
@@ -64,7 +64,7 @@ class UniHCPHuman(BaseDetector):
 
     def _preprocess(self, img: np.ndarray) -> np.ndarray:
         img, shift, scale = resize_image(
-            img, size=self.input_size, keep_ratio=True, position="top_left"
+            img, size=self.input_size, keep_ratio=True, position="center", value=127
         )
 
         if self.config.mean and self.config.std:
