@@ -1,10 +1,9 @@
-import cv2
 import numpy as np
 
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from typing import List, Tuple
+from typing import List
 from autoannotator.types.base import Detection
 from autoannotator.config.detection import DetectionConfig
 from autoannotator.utils.misc import attempt_download_onnx
@@ -39,9 +38,7 @@ class BaseDetector(ABC):
         Returns:
             List[Detection]: List of detected objects
         """
-        x, shift, scale = self._preprocess(img)
-        raw_out = self._forward(x)
-        out = self._postprocess(raw_out, shift, scale)
+        out = self._predict(img)
         return out
 
     def _init_session(self):
@@ -68,40 +65,5 @@ class BaseDetector(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _preprocess(self, img: np.ndarray) -> Tuple[np.ndarray, Tuple[int, int], float]:
-        """
-        Prepare given image for inference. Apply geometrical transformations and normalization if needed
-
-        Arguments:
-            img (np.ndarray): The input RGB image, HxWx3
-
-        Returns:
-            np.ndarray: Preprocessed image
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def _postprocess(self, raw_out, shift=(0, 0), det_scale=1.0) -> List[Detection]:
-        """
-        Post-process raw onnx model output
-
-        Arguments:
-            raw_out: Onnx model output.
-            shift (Tuple[float, float]): original to preprocessed image shift
-            det_scale (float): original to preprocessed image scale
-        Returns:
-            List[Detection]: List of detected objects
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def _forward(self, img: np.ndarray):
-        """
-        Onnx graph inference
-
-        Arguments:
-            img (np.ndarray): The input image.
-        Returns:
-            arbitrary object. Don't forget to implement your own post-processing script
-        """
+    def _predict(self, img: np.ndarray) -> List[Detection]:
         raise NotImplementedError

@@ -1,8 +1,9 @@
 import cv2
 import numpy as np
-from typing import Tuple, List
+from typing import Tuple, List, Union
 
 from autoannotator.types.base import ImageColorFormat
+from autoannotator.types.custom_typing import Tuple3i, Tuple3f
 
 
 __all__ = ['resize_image', 'np2onnx', 'normalize_image']
@@ -49,7 +50,7 @@ def resize_image(
         keep_ratio: bool = True,
         position: str = 'center',
         value: int = 0
-) -> Tuple[np.ndarray, Tuple[int, int], float]:
+) -> Tuple[np.ndarray, Tuple[int, int], Tuple[float, float]]:
     """
     Resize image
 
@@ -62,7 +63,7 @@ def resize_image(
     Returns:
         (np.ndarray): Resized image (H1 x W1 x 3)
         (Tuple[int, int]): xy translation shift
-        (float): resize scale (resized to original scale)
+        (Tuple[float, float]): xy resize scale (resized to original scale)
     """
     h1, w1 = size
     h0, w0 = img.shape[:2]
@@ -71,7 +72,12 @@ def resize_image(
 
     new_h, new_w = _compute_new_shape(img0_shape=(h0, w0), img1_shape=(h1, w1), keep_ratio=keep_ratio)
 
-    scale = float(new_h) / h0
+    if keep_ratio:
+        s = float(new_h) / h0
+        scale = (s, s)
+    else:
+        scale = (float(new_w) / w0, float(new_h) / h0)
+
     resized_img = cv2.resize(img, (new_w, new_h))       # dsize in cv2.resize is in (w x h) format
 
     if position == 'center':
@@ -83,11 +89,11 @@ def resize_image(
         assert 0 <= y1 <= h1 and 0 <= y2 <= h1
         out_img[y1:y2, x1:x2, :] = resized_img
         shift = (x1, y1)
-    elif position == 'topleft':
+    elif position == 'top_left':
         out_img[:new_h, :new_w, :] = resized_img
         shift = (0, 0)
     else:
-        raise NotImplementedError(f'Only `center` and `topleft` positions are supported. Got: {position}')
+        raise NotImplementedError(f'Only `center` and `top_left` positions are supported. Got: {position}')
 
     return out_img, shift, scale
 
@@ -110,7 +116,7 @@ def np2onnx(img: np.ndarray, color_mode: ImageColorFormat = ImageColorFormat.RGB
     return img
 
 
-def normalize_image(img: np.ndarray, mean: List[float], std: List[float]) -> np.ndarray:
+def normalize_image(img: np.ndarray, mean: Union[Tuple3i, Tuple3f], std: Union[Tuple3i, Tuple3f]) -> np.ndarray:
     """
     Normalize numpy rgb image
 

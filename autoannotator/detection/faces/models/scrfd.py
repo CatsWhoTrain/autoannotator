@@ -1,9 +1,9 @@
-import cv2
 import numpy as np
 from typing import List, Tuple, Union
 
 from autoannotator.detection.core.base_detector import BaseDetector
 from autoannotator.types.base import ImageColorFormat
+from autoannotator.types.custom_typing import Tuple2f, Tuple2i
 from autoannotator.types.faces import Face
 from autoannotator.utils.image_preprocessing import resize_image, np2onnx, normalize_image
 from autoannotator.config.detection import DetectionConfig
@@ -112,6 +112,12 @@ class SCRFD(BaseDetector):
     def name(self):
         return 'SCRFD_10G_KPS'
 
+    def _predict(self, img: np.ndarray) -> List[Face]:
+        x, shift, scale = self._preprocess(img)
+        raw_out = self._forward(x)
+        out = self._postprocess(raw_out, shift, scale)
+        return out
+
     def _forward(self, blob):
         scores_list = []
         bboxes_list = []
@@ -178,7 +184,7 @@ class SCRFD(BaseDetector):
                 kpss_list.append(pos_kpss)
         return scores_list, bboxes_list, kpss_list
 
-    def _preprocess(self, img: np.ndarray) -> Tuple[np.ndarray, Tuple[int, int], float]:
+    def _preprocess(self, img: np.ndarray) -> Tuple[np.ndarray, Tuple2i, Tuple2f]:
         img, shift, scale = resize_image(img, size=self.input_size, keep_ratio=True, position='center')
 
         img = normalize_image(img, mean=self.config.mean, std=self.config.std)
@@ -186,7 +192,7 @@ class SCRFD(BaseDetector):
         img = np2onnx(img, color_mode=ImageColorFormat.RGB)
         return img, shift, scale
 
-    def _postprocess(self, raw_out, shift=(0, 0), det_scale=1.0) -> List[Face]:
+    def _postprocess(self, raw_out, shift=(0, 0), scale=(1.0, 1.0)) -> List[Face]:
         scores_list, bboxes_list, kpss_list = raw_out
 
         scores = np.vstack(scores_list)
@@ -194,17 +200,15 @@ class SCRFD(BaseDetector):
         order = scores_ravel.argsort()[::-1]
 
         bboxes = np.vstack(bboxes_list)
-        bboxes[:, [0, 2]] -= shift[0]
-        bboxes[:, [1, 3]] -= shift[1]
-        bboxes = bboxes / det_scale
+        bboxes[:, [0, 2]] = (bboxes[:, [0, 2]] - shift[0]) / scale[0]
+        bboxes[:, [1, 3]] = (bboxes[:, [1, 3]] - shift[1]) / scale[1]
 
         if self.use_kps:
             kpss = np.vstack(kpss_list)
             for i in range(len(kpss)):
                 for j in range(len(kpss[i])):
-                    kpss[i, j, 0] -= shift[0]
-                    kpss[i, j, 1] -= shift[1]
-            kpss = kpss / det_scale
+                    kpss[i, j, 0] = (kpss[i, j, 0] - shift[0]) / scale[0]
+                    kpss[i, j, 1] = (kpss[i, j, 1] - shift[1]) / scale[1]
 
         pre_det = np.hstack((bboxes, scores)).astype(np.float32, copy=False)
         pre_det = pre_det[order, :]
