@@ -3,17 +3,15 @@ import numpy as np
 from typing import Tuple, List, Union
 
 from autoannotator.types.base import ImageColorFormat
-from autoannotator.types.custom_typing import Tuple3i, Tuple3f
+from autoannotator.types.custom_typing import Tuple2f, Tuple2i, Tuple3i, Tuple3f
 
 
-__all__ = ['resize_image', 'np2onnx', 'normalize_image']
+__all__ = ["resize_image", "np2onnx", "normalize_image"]
 
 
 def _compute_new_shape(
-        img0_shape: Tuple[int, int],
-        img1_shape: Tuple[int, int],
-        keep_ratio: bool = True
-) -> Tuple[int, int]:
+    img0_shape: Tuple2i, img1_shape: Tuple2i, keep_ratio: bool = True
+) -> Tuple2i:
     """
     Compute resize HxW dimensions
 
@@ -45,12 +43,12 @@ def _compute_new_shape(
 
 
 def resize_image(
-        img: np.ndarray,
-        size: Tuple[int, int],
-        keep_ratio: bool = True,
-        position: str = 'center',
-        value: int = 0
-) -> Tuple[np.ndarray, Tuple[int, int], Tuple[float, float]]:
+    img: np.ndarray,
+    size: Tuple[int, int],
+    keep_ratio: bool = True,
+    position: str = "center",
+    value: int = 0,
+) -> Tuple[np.ndarray, Tuple2i, Tuple2f]:
     """
     Resize image
 
@@ -68,9 +66,9 @@ def resize_image(
     h1, w1 = size
     h0, w0 = img.shape[:2]
 
-    out_img = np.ones((h1, w1, 3), dtype=np.uint8) * value
-
-    new_h, new_w = _compute_new_shape(img0_shape=(h0, w0), img1_shape=(h1, w1), keep_ratio=keep_ratio)
+    new_h, new_w = _compute_new_shape(
+        img0_shape=(h0, w0), img1_shape=(h1, w1), keep_ratio=keep_ratio
+    )
 
     if keep_ratio:
         s = float(new_h) / h0
@@ -78,27 +76,38 @@ def resize_image(
     else:
         scale = (float(new_w) / w0, float(new_h) / h0)
 
-    resized_img = cv2.resize(img, (new_w, new_h))       # dsize in cv2.resize is in (w x h) format
+    resized_img = cv2.resize(
+        img, (new_w, new_h)
+    )  # dsize in cv2.resize is in (w x h) format
 
-    if position == 'center':
+    if position == "center":
+        out_img = np.ones((h1, w1, 3), dtype=np.uint8) * value
         x1 = (w1 - new_w) // 2
         y1 = (h1 - new_h) // 2
-        x2 = (x1 + new_w)
-        y2 = (y1 + new_h)
+        x2 = x1 + new_w
+        y2 = y1 + new_h
         assert 0 <= x1 <= w1 and 0 <= x2 <= w1
         assert 0 <= y1 <= h1 and 0 <= y2 <= h1
         out_img[y1:y2, x1:x2, :] = resized_img
         shift = (x1, y1)
-    elif position == 'top_left':
+    elif position == "top_left":
+        out_img = np.ones((h1, w1, 3), dtype=np.uint8) * value
         out_img[:new_h, :new_w, :] = resized_img
         shift = (0, 0)
+    elif position == "only":
+        out_img = resized_img
+        shift = (0, 0)
     else:
-        raise NotImplementedError(f'Only `center` and `top_left` positions are supported. Got: {position}')
+        raise NotImplementedError(
+            f"Only `center`, `top_left`, and `only` positions are supported. Got: {position}"
+        )
 
     return out_img, shift, scale
 
 
-def np2onnx(img: np.ndarray, color_mode: ImageColorFormat = ImageColorFormat.RGB) -> np.ndarray:
+def np2onnx(
+    img: np.ndarray, color_mode: ImageColorFormat = ImageColorFormat.RGB
+) -> np.ndarray:
     """
     Convert numpy image to onnx-friendly input format
 
@@ -116,7 +125,9 @@ def np2onnx(img: np.ndarray, color_mode: ImageColorFormat = ImageColorFormat.RGB
     return img
 
 
-def normalize_image(img: np.ndarray, mean: Union[Tuple3i, Tuple3f], std: Union[Tuple3i, Tuple3f]) -> np.ndarray:
+def normalize_image(
+    img: np.ndarray, mean: Union[Tuple3i, Tuple3f], std: Union[Tuple3i, Tuple3f]
+) -> np.ndarray:
     """
     Normalize numpy rgb image
 
