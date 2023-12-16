@@ -9,7 +9,6 @@ class DetectionConfig(BaseModel):
     weights: str
     conf_thresh: float = 0.5
     nms_thresh: float = 0.5  # used only in the models with NMS postprocessing
-    nms_thresh: float = 0.5  # used only in the models with NMS postprocessing
     device: str = 'cpu'
     # tiles: Optional[Tuple[int, int, float]]     # TODO: Not used yet
     input_size: Tuple2i  # height, width
