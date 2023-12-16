@@ -3,12 +3,12 @@ from pydantic import BaseModel
 
 from autoannotator.types.custom_typing import Tuple2i, Tuple3f, Tuple3i
 
-
 class DetectionConfig(BaseModel):
     """ Base object detector inference config
     """
     weights: str
     conf_thresh: float = 0.5
+    nms_thresh: float = 0.5  # used only in the models with NMS postprocessing
     nms_thresh: float = 0.5  # used only in the models with NMS postprocessing
     device: str = 'cpu'
     # tiles: Optional[Tuple[int, int, float]]     # TODO: Not used yet
