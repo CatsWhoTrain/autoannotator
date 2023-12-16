@@ -16,10 +16,8 @@ def test_face_detection_ensemble():
 
     img = reader(img_file)
     faces = fd_ensemble(img)
-    return None
     
-    expected_bbox = np.array([255.34286499023438, 314.4675598144531, 639.2444458007812, 797.302734375])
-    expected_landmarks = np.array([[331.6590881347656, 568.7437133789062, 1.5600734949111938, 478.98736572265625, 502.46636962890625, 1.5603388547897339, 414.7174987792969, 610.7625732421875, 1.5614584684371948, 406.1929626464844, 710.7393798828125, 1.5593634843826294, 527.5408325195312, 654.9186401367188, 1.5474867820739746]])
-    np.allclose(expected_bbox, faces[0].bbox)
-    np.allclose(expected_landmarks, np.array(faces[0].landmarks).reshape(15))
-
+    expected_bbox = np.array([255, 314, 639, 797])
+    expected_landmarks = np.array([[331, 568, 0, 478, 502, 0, 414, 610, 0, 406, 710, 0, 527, 654, 0]])
+    np.testing.assert_allclose(expected_bbox, np.array(faces[0].bbox).astype(np.int32))
+    np.testing.assert_allclose(expected_landmarks, np.array(faces[0].landmarks).reshape(1, 15).astype(np.int32))

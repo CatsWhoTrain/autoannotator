@@ -1,0 +1,23 @@
+import pytest
+import numpy as np
+
+
+from autoannotator.detection.human.models.uhihcp import (
+    UniHCPHuman,
+    UniHCPHumanDetectionConfig,
+)
+from autoannotator.utils.image_reader import ImageReader
+
+
+def test_unihcp_human_detection():
+    img_file = "assets/images/people_fullbody_gen_1.jpg"
+    reader = ImageReader()
+
+    model = UniHCPHuman(UniHCPHumanDetectionConfig())
+    img = reader(img_file)
+    detections = model(img)
+
+    expected_bbox = np.array([445, 241, 616, 669])
+    np.testing.assert_allclose(
+        expected_bbox, np.array(detections[0].bbox).astype(np.int32)
+    )
