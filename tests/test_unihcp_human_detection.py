@@ -9,7 +9,7 @@ from autoannotator.detection.human.models.uhihcp import (
 from autoannotator.utils.image_reader import ImageReader
 
 
-def test_face_detection_ensemble():
+def test_unihcp_human_detection():
     img_file = "assets/images/people_fullbody_gen_1.jpg"
     reader = ImageReader()
 
