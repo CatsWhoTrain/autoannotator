@@ -7,3 +7,4 @@ scikit-learn
 opencv-python
 pytest
 requests
+tqdm

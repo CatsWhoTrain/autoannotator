@@ -141,7 +141,7 @@ def normalize_image(
     mean = np.array(mean)
     std = np.array(std)
 
-    if img.dtype == np.uint8:
+    if img.dtype == np.uint8 and mean.max() < 1.0:
         img = img / 255
     img = (img - mean) / std
     return img
