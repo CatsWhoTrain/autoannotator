@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 from enum import Enum
+import numpy as np
 
 
 class Detection(BaseModel):
@@ -26,7 +27,13 @@ class Detection(BaseModel):
             y2 * sy,
         ]
 
-      
+    def clip(self, x1, y1, x2, y2):
+        box = np.array(self.bbox)
+        box[0::2] = np.clip(box[0::2], x1, x2)
+        box[1::2] = np.clip(box[1::2], y1, y2)
+        self.bbox = box.tolist()
+
+
 class ImageColorFormat(Enum):
     BGR = 1
     RGB = 2
