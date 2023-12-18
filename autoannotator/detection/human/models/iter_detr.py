@@ -45,7 +45,7 @@ def _prepare_iter_detr_inputs(
 
 class IterDetrDetectionConfig(DetectionConfig):
     """ Iter Deformable DETR object detector config """
-    weights: str = f'{_ROOT}/weights/detection/humans/iter_detr_swinl_800x1300.onnx'
+    weights: str = f'{_ROOT}/weights/detection/human/iter_detr_swinl_800x1300.onnx'
     url: Optional[str] = None   # todo: add weights to the repo
     conf_thresh: float = 0.4
     nms_thresh: float = 0.5     # todo: which threshold to choose?
@@ -66,7 +66,7 @@ class IterDETR(BaseDetector):
     def __init__(self, config: IterDetrDetectionConfig = IterDetrDetectionConfig()):
         super(IterDETR, self).__init__(config)
 
-        self.num_queries = 10000    # IterDETR SwinL hardcode
+        self.num_queries = 1000000    # IterDETR SwinL hardcode
         self.output_names = [o.name for o in self.session.get_outputs()]
 
         self.color_format = ImageColorFormat.RGB
@@ -76,9 +76,10 @@ class IterDETR(BaseDetector):
         return 'IterDETR_SwinL'
 
     def _predict(self, img: np.ndarray) -> List[Detection]:
+        img0_shape = img.shape[:-1]
         x, shift, scale = self._preprocess(img)
         raw_out = self._forward(x)
-        out = self._postprocess(raw_out, shift, scale)
+        out = self._postprocess(raw_out, shift, scale, img0_shape)
         return out
 
     def _preprocess(self, img: np.ndarray) -> Tuple[Dict, Tuple2f, Tuple2f]:
@@ -98,7 +99,8 @@ class IterDETR(BaseDetector):
         }
         return inputs, pad, scale
 
-    def _postprocess(self, raw_out: np.ndarray, pad: Tuple2f, scale: Tuple2f) -> List[Detection]:
+    def _postprocess(self, raw_out: np.ndarray, pad: Tuple2f, scale: Tuple2f, img0_shape: Tuple2i) -> List[Detection]:
+        h0, w0 = img0_shape
         results = []
         for i in range(self.num_queries):
             score = raw_out[0][i]
@@ -108,12 +110,13 @@ class IterDETR(BaseDetector):
             if score > self.config.conf_thresh:
 
                 pred = Detection(
-                    cls_id=label,
+                    cls_id=0,
                     score=score,
                     bbox=box,
                 )
                 pred.shift(x0=-pad[0], y0=-pad[1])
                 pred.scale(sx=1/scale[0], sy=1/scale[1])
+                pred.clip(0, 0, w0 - 1, h0 - 1)
                 results.append(pred)
 
         keep_indices = non_maximum_suppression(results, iou_thresh=self.config.nms_thresh)
