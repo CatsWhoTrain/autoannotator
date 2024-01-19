@@ -1,8 +1,9 @@
 import numpy as np
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 from autoannotator.detection.utils.wbf import weighted_boxes_fusion
 from autoannotator.types.faces import Face
+from autoannotator.types.base import Detection
 from autoannotator.detection.core.base_detector import BaseDetector
 
 
@@ -14,19 +15,21 @@ class FaceDetEnsemble:
        models (List[BaseDetector]): list of face detectors
     """
 
-    def __init__(self, models: List[BaseDetector], min_score: float = 0.4):
+    def __init__(self, models: List[BaseDetector], match_iou_thr: float = 0.5, model_weights: List[float] = None):
         """
         Constructor
         
         Arguments:
             models (List[BaseDetector]): All the models that should be used in the inference.
-            min_score (float): Detections with at least min_score confidence will be added in the results 
+            match_iou_thr (float): IoU threshold to match Detections, default 0.5
+            model_weights (List[float]): model weights that are used to merge predictions into one
         """
         super(FaceDetEnsemble, self).__init__()
         self.models = models
-        self.min_score = min_score
+        self.model_weights = model_weights
+        self.match_iou_thr = match_iou_thr
 
-    def __call__(self, img: np.ndarray) -> List[Face]:
+    def __call__(self, img: np.ndarray) -> Tuple[List[Face], List[dict], Dict[str, List[Detection]]]:
         """
         Run inference with the ensemble of models on a given image
 
@@ -34,20 +37,21 @@ class FaceDetEnsemble:
             img (np.ndarray): The input image.
             
         Returns:
-            (List[Face]): List of detected faces
+            predictions (List[Face]): List of detected faces
+            meta (List[dict]): List of matching meta data
+            results (Dict[str, List[Face]]): dict of per model predictions
         """
    
         results = {}
         for model in self.models:
             res = model(img)
-            results[model.name] = res
-        
-        results = self.reduce(results, self.min_score)
+            results[str(model.name)] = res
 
-        return results
+        predictions, meta = self.reduce(results)
 
-    @staticmethod
-    def reduce(results: Dict[str, List[Face]], min_score: float) -> List[Face]:
+        return predictions, meta, results
+
+    def reduce(self, results: Dict[str, List[Detection]]) -> Tuple[List[Face], List[dict]]:
         """
         Reduces ensemble models predictions into single prediction with Weighted Boxes Fusion Algorithm
 
@@ -77,15 +81,17 @@ class FaceDetEnsemble:
             kp_list.append(kps)
             labels_list.append(labels)
 
-        boxes, scores, kps, labels, _, _, _ = weighted_boxes_fusion(boxes_list, scores_list, kp_list, labels_list)
+        annotations = {'labels': labels_list, 'scores': scores_list, 'boxes': boxes_list, 'kps': kp_list}
+        w_annotations = weighted_boxes_fusion(annotations, weights=self.model_weights, iou_thr=self.match_iou_thr)
 
         out = []
-        for box, score, kp, lbl in zip(boxes, scores, kps, labels):
-            if score >= min_score:
-                out.append(Face(
-                    cls_id=lbl,
-                    score=score,
-                    bbox=box.tolist(),
-                    landmarks=kp.reshape(-1, 3).tolist(),
-                ))
-        return out
+        meta = []
+        for ann in w_annotations:
+            out.append(Face(
+                cls_id=ann['label'],
+                score=ann['score'],
+                bbox=ann['bbox'].tolist(),
+                landmarks=ann['kps'].reshape(-1, 3).tolist()
+            ))
+            meta.append(ann['meta'])
+        return out, meta

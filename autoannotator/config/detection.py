@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 from autoannotator.types.custom_typing import Tuple2i, Tuple3f, Tuple3i
 
+
 class DetectionConfig(BaseModel):
     """ Base object detector inference config
     """
