@@ -1,7 +1,23 @@
 # Auto Annotator
-An extendable tool for automatic annotation of image data by a combination of deep neural networks.
-
 ![alt text](readme_files/auto-annotate_logo.jpg)
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/CatsWhoTrain/autoannotator/python-app.yml)
+[![codecov](https://codecov.io/gh/CatsWhoTrain/autoannotator/graph/badge.svg?token=W555RQ6E2G)](https://codecov.io/gh/CatsWhoTrain/autoannotator)
+[![PyPI version](https://badge.fury.io/py/autoannotator.svg)](https://badge.fury.io/py/autoannotator)
+![PyPI - Format](https://img.shields.io/pypi/format/autoannotator)
+![license](https://img.shields.io/github/license/CatsWhoTrain/autoannotator)
+![GitHub top language](https://img.shields.io/github/languages/top/CatsWhoTrain/autoannotator)
+![PythonVersion](https://img.shields.io/pypi/pyversions/autoannotator)
+![Downloads](https://static.pepy.tech/badge/autoannotator)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/CatsWhoTrain/autoannotator)
+![GitHub contributors](https://img.shields.io/github/contributors/CatsWhoTrain/autoannotator)
+![GitHub forks](https://img.shields.io/github/forks/CatsWhoTrain/autoannotator)
+![GitHub Repo stars](https://img.shields.io/github/stars/CatsWhoTrain/autoannotator)
+
+
+
+
+An extendable tool for automatic annotation of image data by a combination of deep neural networks.
 
 The primary objective of this annotator is to prioritize the accuracy and quality of predictions over speed. The `autoannotator` has been specifically designed to surpass the precision offered by most publicly available tools. It leverages ensembles of deep neural models to ensure the utmost quality in its predictions. It is important to note that neural networks trained on clean datasets tend to yield superior results compared to those trained on larger but noisier datasets.
 
