@@ -1,7 +1,7 @@
 import numpy as np
-from typing import Union, Optional
+from typing import Optional, List, Tuple, Dict
 
-from autoannotator.types.custom_typing import Tuple3f, Tuple3i, Tuple2i
+from autoannotator.types.custom_typing import Tuple3f, Tuple3i, Tuple2i, Tuple2f
 from autoannotator.detection.core.base_detector import BaseDetector
 from autoannotator.types.base import ImageColorFormat, Detection
 from autoannotator.utils.image_preprocessing import resize_image, normalize_image, np2onnx
@@ -18,12 +18,12 @@ _ROOT = get_project_root()
 class RTDETRDetectionConfig(DetectionConfig):
     """ RTDETR R101 object detector config """
     weights: str = f'{_ROOT}/weights/detection/human/rtdetr_r101_ch_wp_640х640.onnx'
-    url: Optional[str] = None   # todo: add weights to the repo
+    url: Optional[str] = "https://github.com/CatsWhoTrain/autoannotator/releases/download/0.0.1/rtdetr_r101_ch_wp_640.640.onnx"
     conf_thresh: float = 0.5
     nms_thresh: float = None
     input_size: Tuple2i = (640, 640)
-    mean: Union[Tuple3f, Tuple3i] = (0., 0., 0.),
-    std: Union[Tuple3f, Tuple3i] = (1., 1., 1.),
+    mean: Tuple3f | Tuple3i = (0., 0., 0.),
+    std: Tuple3f | Tuple3i = (1., 1., 1.),
 
 
 class RTDETR(BaseDetector):
@@ -49,14 +49,14 @@ class RTDETR(BaseDetector):
     def name(self):
         return 'RTDETR_R101'
 
-    def _predict(self, img):
-        img0_shape = img.shape[:-1]
+    def _predict(self, img: np.ndarray) -> List[Detection]:
+        img0_shape = (img.shape[0], img.shape[1])
         x, pad, scale = self._preprocess(img)
         raw_res = self._forward(x)
         results = self._postprocess(raw_res, pad, scale, img0_shape)
         return results
 
-    def _preprocess(self, img):
+    def _preprocess(self, img: np.ndarray) -> Tuple[Dict, Tuple2f, Tuple2f]:
         img, pad, scale = resize_image(img, size=self.config.input_size, keep_ratio=True, position='center')
         img = normalize_image(img, mean=self.config.mean, std=self.config.std)
 
@@ -70,7 +70,7 @@ class RTDETR(BaseDetector):
         }
         return inputs, pad, scale
 
-    def _postprocess(self, raw_out, pad, scale, img0_shape):
+    def _postprocess(self, raw_out: np.ndarray, pad: Tuple2f, scale: Tuple2f, img0_shape: Tuple2i) -> List[Detection]:
         h0, w0 = img0_shape
         labels, boxes, scores = raw_out
         bs, num_queries = labels.shape

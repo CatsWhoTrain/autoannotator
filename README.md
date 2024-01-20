@@ -20,6 +20,7 @@ The primary objective of this annotator is to prioritize the accuracy and qualit
 
 ## Supported tasks
 ### Human Face Detection and Recognition
+### Human Face Detection and Recognition
 - [X] Face and landmarks detection 
 - [X] Face alignment via keypoints
 - [X] Face descriptor extraction

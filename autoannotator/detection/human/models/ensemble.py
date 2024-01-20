@@ -20,8 +20,8 @@ class HumanDetEnsemble(object):
 
         Arguments:
             models (List[BaseDetector]): All the models that should be used in the inference.
-            match_iou_thr (float): IoU threshold to match detections, default 0.5
-            model_weights (List[BaseDetector]): model weights that are used to merge predictions into one
+            match_iou_thr (float): IoU threshold to match Detections, default 0.5
+            model_weights (List[float]): model weights that are used to merge predictions into one
         """
         super(HumanDetEnsemble, self).__init__()
         self.models = models

@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Tuple, Union, Dict, List, Optional
+from typing import Tuple, Dict, List, Optional
 
 from autoannotator.types.custom_typing import Tuple3f, Tuple3i, Tuple2f, Tuple2i
 from autoannotator.detection.core.base_detector import BaseDetector
@@ -46,12 +46,12 @@ def _prepare_iter_detr_inputs(
 class IterDetrDetectionConfig(DetectionConfig):
     """ Iter Deformable DETR object detector config """
     weights: str = f'{_ROOT}/weights/detection/human/iter_detr_swinl_800x1300.onnx'
-    url: Optional[str] = None   # todo: add weights to the repo
+    url: Optional[str] = "https://github.com/CatsWhoTrain/autoannotator/releases/download/0.0.1/iter_detr_swinl_800x1300.onnx"
     conf_thresh: float = 0.4
-    nms_thresh: float = 0.5     # todo: which threshold to choose?
+    nms_thresh: float = 0.5     # todo: what threshold to choose?
     input_size: Tuple2i = (800, 1300)
-    mean: Union[Tuple3f, Tuple3i] = (0.485, 0.456, 0.406),
-    std: Union[Tuple3f, Tuple3i] = (0.229, 0.224, 0.225),
+    mean: Tuple3f | Tuple3i = (0.485, 0.456, 0.406),
+    std: Tuple3f | Tuple3i = (0.229, 0.224, 0.225),
 
 
 class IterDETR(BaseDetector):
@@ -76,7 +76,7 @@ class IterDETR(BaseDetector):
         return 'IterDETR_SwinL'
 
     def _predict(self, img: np.ndarray) -> List[Detection]:
-        img0_shape = img.shape[:-1]
+        img0_shape = (img.shape[0], img.shape[1])
         x, shift, scale = self._preprocess(img)
         raw_out = self._forward(x)
         out = self._postprocess(raw_out, shift, scale, img0_shape)

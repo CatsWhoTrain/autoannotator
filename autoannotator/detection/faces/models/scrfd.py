@@ -1,9 +1,9 @@
 import numpy as np
-from typing import List, Tuple, Union
+from typing import List, Tuple
 
 from autoannotator.detection.core.base_detector import BaseDetector
 from autoannotator.types.base import ImageColorFormat
-from autoannotator.types.custom_typing import Tuple2f, Tuple2i
+from autoannotator.types.custom_typing import Tuple2f, Tuple2i, Tuple3f, Tuple3i
 from autoannotator.types.faces import Face
 from autoannotator.utils.image_preprocessing import resize_image, np2onnx, normalize_image
 from autoannotator.config.detection import DetectionConfig
@@ -70,15 +70,16 @@ class SCRFDDetectionConfig(DetectionConfig):
     url: str = "https://github.com/CatsWhoTrain/autoannotator/releases/download/0.0.1/scrfd_10g_kps.onnx"
     conf_thresh: float = 0.4
     nms_thresh: float = 0.5
-    input_size: Tuple[int, int] = (640, 640)
-    mean: Union[Tuple[int, int, int], Tuple[float, float, float]] = (0.5, 0.5, 0.5)
-    std: Union[Tuple[int, int, int], Tuple[float, float, float]] = (0.50196, 0.50196, 0.50196)
+    input_size: Tuple2i = (640, 640)
+    mean: Tuple3f | Tuple3i = (0.5, 0.5, 0.5)
+    std: Tuple3f | Tuple3i = (0.50196, 0.50196, 0.50196)
 
 
 class SCRFD(BaseDetector):
     """
     SCRFD onnx interface. Refer to: https://github.com/deepinsight/insightface/tree/master/detection/scrfd.
     Supported models: SCRFD_10G_KPS
+    WiderFace metrics: easy 95.40, medium 94.01, hard 82.80 (mean: 0.9073)
 
     Arguments:
         config (DetectionConfig): detector config

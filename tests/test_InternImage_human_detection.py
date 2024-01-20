@@ -15,7 +15,7 @@ def test_internimage_human_detection():
     img = reader(img_file)
     detections = model(img)
 
-    expected_bbox = np.array([849, 227, 983, 686])
+    expected_bbox = np.array([855, 227, 989, 686])
     np.testing.assert_allclose(
         expected_bbox, np.array(detections[0].bbox).astype(np.int32)
     )

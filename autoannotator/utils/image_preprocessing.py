@@ -1,4 +1,5 @@
 import cv2
+import math
 import numpy as np
 from typing import Tuple, List, Union
 
@@ -145,3 +146,58 @@ def normalize_image(
         img = img / 255
     img = (img - mean) / std
     return img
+
+
+def tile_image(
+        img: np.ndarray,
+        smaller_side_parts: int = 2,
+        bigger_side_parts: int = 2,
+        overlap: float = 0.2
+) -> Tuple[List[np.ndarray], List[list]]:
+    """
+    Splits input image into smaller_side_parts x bigger_side_parts tiles with overlap
+    Args:
+        img: np.array - image to tile (HxWx3)
+        smaller_side_parts: number of tiles along the smallest dimension
+        bigger_side_parts: number of tiles along the largest dimension
+        overlap: tiles overlap
+
+    Returns:
+        images: list of image tiles (np.array, HxWx3)
+        windows: list of the corresponding tile coordinates relative to the original image (x_min, y_min, x_max, y_max)
+    """
+    height, width = img.shape[:2]
+
+    # Assign bigger and smaller sides' partitions
+    if height > width:
+        h_parts = bigger_side_parts
+        w_parts = smaller_side_parts
+    elif height == width:
+        h_parts = bigger_side_parts
+        w_parts = bigger_side_parts
+    else:
+        h_parts = smaller_side_parts
+        w_parts = bigger_side_parts
+
+    h_step = int(height / h_parts)
+    w_step = int(width / w_parts)
+
+    # Creating windows for detection with overlap
+    windows = []
+    images = []
+    for h in range(h_parts):
+        h_start = h * h_step
+        h_end = h_start + h_step
+        h_start = math.ceil(h_start * (1 - overlap))
+        h_end = math.floor(h_end * (1 + overlap))
+
+        for w in range(w_parts):
+            w_start = w * w_step
+            w_end = w_start + w_step
+            w_start = math.ceil(w_start * (1 - overlap))
+            w_end = math.floor(w_end * (1 + overlap))
+            x1, y1, x2, y2 = w_start, h_start, min(w_end, width), min(h_end, height)
+            windows.append([x1, y1, x2, y2])
+            images.append(img[y1:y2, x1:x2, :])
+
+    return images, windows

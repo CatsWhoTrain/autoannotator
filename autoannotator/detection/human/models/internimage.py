@@ -1,5 +1,5 @@
 import numpy as np
-from typing import List, Tuple
+from typing import List, Tuple, Union, Dict
 
 from autoannotator.detection.core.base_detector import BaseDetector
 from autoannotator.types.base import Detection, ImageColorFormat
@@ -63,16 +63,16 @@ class InternImageHuman(BaseDetector):
         return "InternImage_Human_Detection"
 
     def _predict(self, img: np.ndarray) -> List[Detection]:
+        img0_shape = (img.shape[0], img.shape[1])
         x, shift, scale = self._preprocess(img)
         raw_out = self._forward(x)
-        out = self._postprocess(raw_out, shift, scale)
+        out = self._postprocess(raw_out, shift, scale, img0_shape)
         return out
 
-    def _preprocess(self, img: np.ndarray) -> np.ndarray:
+    def _preprocess(self, img: np.ndarray) -> Tuple[np.ndarray, Tuple2f, Tuple2f]:
         img, shift, scale = resize_image(
             img, size=self.input_size, keep_ratio=True, position="center", value=127
         )
-
         if self.config.mean and self.config.std:
             img = normalize_image(img, mean=self.config.mean, std=self.config.std)
 
@@ -84,8 +84,9 @@ class InternImageHuman(BaseDetector):
         return out
 
     def _postprocess(
-        self, raw_out: np.ndarray, pad: Tuple2f, scale: Tuple2f
+        self, raw_out: np.ndarray, pad: Tuple2f, scale: Tuple2f, img0_shape: Tuple2i
     ) -> List[Detection]:
+        h0, w0 = img0_shape
         results = []
         boxes = raw_out[0][0]
         labels = raw_out[1][0]
@@ -102,7 +103,8 @@ class InternImageHuman(BaseDetector):
                     score=score,
                     bbox=box,
                 )
-                pred.scale(sx=1 / scale[0], sy=1 / scale[1])
                 pred.shift(x0=-pad[0], y0=-pad[1])
+                pred.scale(sx=1 / scale[0], sy=1 / scale[1])
+                pred.clip(0, 0, w0 - 1, h0 - 1)
                 results.append(pred)
         return results

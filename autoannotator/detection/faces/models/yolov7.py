@@ -1,9 +1,9 @@
 import numpy as np
-from typing import List, Tuple, Union
+from typing import List, Tuple
 
 from autoannotator.detection.core.base_detector import BaseDetector
 from autoannotator.types.base import ImageColorFormat
-from autoannotator.types.custom_typing import Tuple2i, Tuple2f
+from autoannotator.types.custom_typing import Tuple2i, Tuple2f, Tuple3i, Tuple3f
 from autoannotator.types.faces import Face
 from autoannotator.utils.image_preprocessing import resize_image, np2onnx, normalize_image
 from autoannotator.config.detection import DetectionConfig
@@ -21,15 +21,17 @@ class YOLOv7DetectionConfig(DetectionConfig):
     url: str = "https://github.com/CatsWhoTrain/autoannotator/releases/download/0.0.1/yolov7-w6-face.onnx"
     conf_thresh: float = 0.4
     nms_thresh: float = 0.5
-    input_size: Tuple[int, int] = (640, 640)
-    mean: Union[Tuple[int, int, int], Tuple[float, float, float]] = (0., 0., 0.)
-    std: Union[Tuple[int, int, int], Tuple[float, float, float]] = (1.0, 1.0, 1.0)
+    input_size: Tuple2i = (640, 640)
+    mean: Tuple3i | Tuple3f = (0., 0., 0.)
+    std: Tuple3i | Tuple3f = (1.0, 1.0, 1.0)
 
 
 class YOLOv7(BaseDetector):
     """
     YOLOv7Face onnx interface. Refer to: https://github.com/derronqi/yolov7-face.
     The onnx model includes nms and detect layer. Supported models: YOLOv7w6
+
+    WiderFace metrics: easy 96.4, medium 95.0, hard 88.3 (mean: 0.9373)
 
     Arguments:
         config (DetectionConfig): detector config
@@ -79,7 +81,7 @@ class YOLOv7(BaseDetector):
 
             if score > self.config.conf_thresh:
                 res.append(Face(
-                    cls_id=0,   # todo:
+                    cls_id=0,
                     score=score,
                     bbox=bbs.tolist(),  # xyxy
                     landmarks=kps.tolist()  # 5 x [x, y, conf]
