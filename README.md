@@ -35,10 +35,21 @@ The primary objective of this annotator is to prioritize the accuracy and qualit
 - [X] DBSCAN clustering
 
 ## 📊 Benchmarks
-### Speed
+### Face Recognition
+#### Speed
 | Task      | Hardware | Time, s |
 | ---        | ---      | ---     |
 | Face detection + landmarks + extraction |Xeon e5 2678 v3| ~1 |
+
+### Human Detection
+#### Quality
+#### AP@50 when RT-DETR ResNet-18 was trained on CUHK-SYSU
+
+| Test set    | Original Markup | Markup via DDQ-DETR | Markup via Ensemle |
+| ----------- | --------------- | ------------------- | ------------------ |
+| CrowdHuman  | 76.39           | 76.97               | 77.31              |
+| WiderPerson | 61.19           | 60.89               | 63.71              |
+
 
 ## 🏗 Installation
 ### PIP package
@@ -60,6 +71,8 @@ The webinterface could be found locally at: `http://localhost:8080/`
 
 ### Human full-body detection
 Detailed description is given in the separate [document](docs/human_detection.md)
+#### Human detection example
+Check out our demo face recognition pipeline at: `examples/human_detection_example.py` 
 
 ## FAQ
 ### Do companies and engineers actually need this tool?
