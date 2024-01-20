@@ -18,7 +18,7 @@ _ROOT = get_project_root()
 class RTDETRDetectionConfig(DetectionConfig):
     """ RTDETR R101 object detector config """
     weights: str = f'{_ROOT}/weights/detection/human/rtdetr_r101_ch_wp_640х640.onnx'
-    url: Optional[str] = None   # todo: add weights to the repo
+    url: Optional[str] = "https://github.com/CatsWhoTrain/autoannotator/releases/download/0.0.1/rtdetr_r101_ch_wp_640.640.onnx"
     conf_thresh: float = 0.5
     nms_thresh: float = None
     input_size: Tuple2i = (640, 640)

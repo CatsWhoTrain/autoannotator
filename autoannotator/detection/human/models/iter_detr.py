@@ -46,7 +46,7 @@ def _prepare_iter_detr_inputs(
 class IterDetrDetectionConfig(DetectionConfig):
     """ Iter Deformable DETR object detector config """
     weights: str = f'{_ROOT}/weights/detection/human/iter_detr_swinl_800x1300.onnx'
-    url: Optional[str] = None   # todo: add weights to the repo
+    url: Optional[str] = "https://github.com/CatsWhoTrain/autoannotator/releases/download/0.0.1/iter_detr_swinl_800x1300.onnx"
     conf_thresh: float = 0.4
     nms_thresh: float = 0.5     # todo: what threshold to choose?
     input_size: Tuple2i = (800, 1300)
