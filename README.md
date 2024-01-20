@@ -59,7 +59,7 @@ docker compose up
 The webinterface could be found locally at: `http://localhost:8080/`
 
 ### Human full-body detection
-Detailed description is given in the separate [document](https://github.com/CatsWhoTrain/autoannotator/blob/main/docs/human_detection.md)
+Detailed description is given in the separate [document](docs/human_detection.md)
 
 ## FAQ
 ### Do companies and engineers actually need this tool?

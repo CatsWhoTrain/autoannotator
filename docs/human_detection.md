@@ -12,10 +12,7 @@ The following models were included:
 
 We have conducted tests to evaluate how utilizing an ensemble of these models enhances human detection training performance. In our use case, we employed the [CUHK-SYSU](https://www.ee.cuhk.edu.hk/~xgwang/PS/dataset.html) dataset which was automatically labeled by the aforementioned models without any manual intervention. Subsequently, we trained an RT-DETR model with ResNet-18 backbone (640x640 input resolution) on both the original and auto-annotated versions of CUHK-SYSU dataset. Finally, we assessed the best checkpoints using test sets of [CrowdHuman](https://www.crowdhuman.org/) and [WiderPerson](http://www.cbsr.ia.ac.cn/users/sfzhang/WiderPerson/) datasets for testing purposes.
 
-We have utilized AP50 as a metric for evaluating our trained model's performance. On the CrowdHuman dataset, we observed a significant improvement in AP50 from 52.30% to 77.31%, resulting in an impressive increase of 47.82%. Similarly, on the WiderPerson dataset, there was also notable progression with AP50 increasing from 54.66% to 63.71%, representing a growth rate of 16.55%. Our test results appear promising and we strongly encourage you to annotate your data and share any findings (even if they are negative) when working on the human full-body detection task.
-
-The figure illustrates how RT-DETR performs on CrowdHuman when trained on vanilla (left image) and automatically annotated (right image) CUHK-SYSU.
-![rt-detr_performance](images/rtdetr_gt_aa.png)
+We have utilized AP50 as a metric for evaluating our trained model's performance. On the CrowdHuman dataset, we observed an improvement in AP50 from 76.39% to 77.31%. Similarly, on the WiderPerson dataset, there was also a progression with AP50 increasing from 61.19% to 63.71%.
 
 ### Difficulties
 During the ONNX conversion process we encountered several issues:
