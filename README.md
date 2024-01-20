@@ -1,11 +1,25 @@
 # Auto Annotator
-An extendable tool for automatic annotation of image data by a combination of deep neural networks.
+![Logo](readme_files/auto-annotate_logo.jpg)
 
-![alt text](readme_files/auto-annotate_logo.jpg)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/CatsWhoTrain/autoannotator/python-app.yml)
+[![codecov](https://codecov.io/gh/CatsWhoTrain/autoannotator/graph/badge.svg?token=W555RQ6E2G)](https://codecov.io/gh/CatsWhoTrain/autoannotator)
+[![PyPI version](https://badge.fury.io/py/autoannotator.svg)](https://badge.fury.io/py/autoannotator)
+![PyPI - Format](https://img.shields.io/pypi/format/autoannotator)
+![license](https://img.shields.io/github/license/CatsWhoTrain/autoannotator)
+![GitHub top language](https://img.shields.io/github/languages/top/CatsWhoTrain/autoannotator)
+![PythonVersion](https://img.shields.io/pypi/pyversions/autoannotator)
+![Downloads](https://static.pepy.tech/badge/autoannotator)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/CatsWhoTrain/autoannotator)
+![GitHub contributors](https://img.shields.io/github/contributors/CatsWhoTrain/autoannotator)
+![GitHub forks](https://img.shields.io/github/forks/CatsWhoTrain/autoannotator)
+![GitHub Repo stars](https://img.shields.io/github/stars/CatsWhoTrain/autoannotator)
+
+An extendable tool for automatic annotation of image data by a combination of deep neural networks.
 
 The primary objective of this annotator is to prioritize the accuracy and quality of predictions over speed. The `autoannotator` has been specifically designed to surpass the precision offered by most publicly available tools. It leverages ensembles of deep neural models to ensure the utmost quality in its predictions. It is important to note that neural networks trained on clean datasets tend to yield superior results compared to those trained on larger but noisier datasets.
 
 ## Supported tasks
+### Human Face Detection and Recognition
 ### Human Face Detection and Recognition
 - [X] Face and landmarks detection 
 - [X] Face alignment via keypoints
@@ -13,16 +27,29 @@ The primary objective of this annotator is to prioritize the accuracy and qualit
 
 ### Human Body Detection
 - [X] UniHCP
-- [X] IterDETR
+- [X] IterDETR (Progressive DETR)
+- [X] RTDETR, ResNet-101
+- [X] InternImage-XL
 
 ### Other
-- [X] DBSCAN clusterization
+- [X] DBSCAN clustering
 
 ## 📊 Benchmarks
-### Speed
+### Face Recognition
+#### Speed
 | Task      | Hardware | Time, s |
 | ---        | ---      | ---     |
 | Face detection + landmarks + extraction |Xeon e5 2678 v3| ~1 |
+
+### Human Detection
+#### Quality
+#### AP@50 when RT-DETR ResNet-18 was trained on CUHK-SYSU
+
+| Test set    | Original Markup | Markup via DDQ-DETR | Markup via Ensemle |
+| ----------- | --------------- | ------------------- | ------------------ |
+| CrowdHuman  | 52.30           | 76.97               | 77.31              |
+| WiderPerson | 54.66           | 60.89               | 63.71              |
+
 
 ## 🏗 Installation
 ### PIP package
@@ -34,7 +61,7 @@ pip install autoannotator
 ### Face recognition example
 Check out our demo face recognition pipeline at: `examples/face_recognition_example.py` 
 
-### [Optional] Run frontend and backend
+#### [Optional] Run frontend and backend
 ```bash
 git clone https://github.com/CatsWhoTrain/autoannotator_client
 cd autoannotator_client
@@ -42,12 +69,17 @@ docker compose up
 ```
 The webinterface could be found locally at: `http://localhost:8080/`
 
+### Human full-body detection
+Detailed description is given in the separate [document](docs/human_detection.md)
+#### Human detection example
+Check out our demo face recognition pipeline at: `examples/human_detection_example.py` 
+
 ## FAQ
 ### Do companies and engineers actually need this tool?
 We have asked engineers in the field of video analytics whether they are interested in such a library. Their responses were:
-- IREX: would use this library and contribute to it.
-- NapoleonIT: would use this library and contribute to it.
-- ITMO.Lens: would use this library.
+- [IREX](https://irex.ai/): would use this library and contribute to it.
+- [NapoleonIT](https://napoleonit.ru/): would use this library and contribute to it.
+- [Linza Metrics](https://linzametrics.com/): would use this library.
 
 ### What are the reasons for choosing this data labeling tool over the alternative of employing human annotators?
 #### Human accuracy is not so good
