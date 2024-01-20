@@ -47,8 +47,8 @@ The primary objective of this annotator is to prioritize the accuracy and qualit
 
 | Test set    | Original Markup | Markup via DDQ-DETR | Markup via Ensemle |
 | ----------- | --------------- | ------------------- | ------------------ |
-| CrowdHuman  | 76.39           | 76.97               | 77.31              |
-| WiderPerson | 61.19           | 60.89               | 63.71              |
+| CrowdHuman  | 52.30           | 76.97               | 77.31              |
+| WiderPerson | 54.66           | 60.89               | 63.71              |
 
 
 ## 🏗 Installation
