@@ -6,10 +6,17 @@ An extendable tool for automatic annotation of image data by a combination of de
 The primary objective of this annotator is to prioritize the accuracy and quality of predictions over speed. The `autoannotator` has been specifically designed to surpass the precision offered by most publicly available tools. It leverages ensembles of deep neural models to ensure the utmost quality in its predictions. It is important to note that neural networks trained on clean datasets tend to yield superior results compared to those trained on larger but noisier datasets.
 
 ## Supported tasks
+### Human Face Detection and Recognition
 - [X] Face and landmarks detection 
 - [X] Face alignment via keypoints
 - [X] Face descriptor extraction
-- [X] Clusterization
+
+### Human Body Detection
+- [X] UniHCP
+- [X] IterDETR
+
+### Other
+- [X] DBSCAN clusterization
 
 ## 📊 Benchmarks
 ### Speed
