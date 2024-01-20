@@ -1,6 +1,6 @@
 # Human Detection
 
-The version 0.1.0 has introduced several state-of-the-art models designed specifically for detecting humans' full bodies accurately and efficiently. We have made it a priority to incorporate the most advanced techniques in this field.
+The version 0.2.0 has introduced several state-of-the-art models designed specifically for detecting humans' full bodies accurately and efficiently. We have made it a priority to incorporate the most advanced techniques in this field.
 
 The following models were included:
 - **InternImage** from [InternImage: Exploring Large-Scale Vision Foundation Models with Deformable Convolutions](https://arxiv.org/abs/2211.05778)
