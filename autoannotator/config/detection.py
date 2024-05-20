@@ -16,3 +16,4 @@ class DetectionConfig(BaseModel):
     mean: Tuple3f | Tuple3i
     std: Tuple3f | Tuple3i
     onnx_custom_ops_libraries: List[str] = []  # ONNX custom ops librarires. See https://pytorch.org/tutorials/beginner/onnx/onnx_registry_tutorial.html
+    
