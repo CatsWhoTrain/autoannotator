@@ -115,6 +115,14 @@ def select_label(labels, model_weights, mode='weighted'):
 
 
 def preprocess_annotations(annotations):
+    # Filter out empty values
+    annotations['labels'] = [arr for arr in annotations['labels'] if len(arr) > 0]
+    annotations['scores'] = [arr for arr in annotations['scores'] if len(arr) > 0]
+    annotations['boxes'] = [arr for arr in annotations['boxes'] if len(arr) > 0]
+    kps_arr = annotations.get('kps', None)
+    if kps_arr is not None:
+        annotations['kps'] = [arr for arr in annotations['kps'] if len(arr) > 0]
+
     num_models = len(annotations['scores'])
     model_indices = []
     model_indices_old = []
@@ -124,11 +132,13 @@ def preprocess_annotations(annotations):
 
     model_indices = np.array(model_indices, dtype=np.int32)
     model_indices_old = np.array(model_indices_old, dtype=np.int32)
+    
+    if len(annotations['labels']) == 0:
+        return annotations, model_indices, model_indices_old, num_models
 
     annotations['labels'] = np.concatenate(annotations['labels'], dtype=np.int32)
     annotations['scores'] = np.concatenate(annotations['scores'], dtype=np.float32)
     annotations['boxes'] = np.concatenate(annotations['boxes'], dtype=np.float32)
-    kps_arr = annotations.get('kps', None)
     if kps_arr is not None:
         annotations['kps'] = np.concatenate(annotations['kps'], dtype=np.float32)
     return annotations, model_indices, model_indices_old, num_models
